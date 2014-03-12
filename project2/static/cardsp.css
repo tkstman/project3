@@ -1,0 +1,65 @@
+/*p*/
+/*{*/
+  /*  font-size: 40px;*/
+/*}*/
+
+/** style */
+body { margin: 50px; text-align: center; }
+
+.colored
+{
+    background:green;
+}
+
+.flipper 
+{ width: 300px; height: 100px; color: #444; margin: 0 auto; 
+    
+}
+
+.flip-back { background: blue; color: #666; width: 300px; height: 100px; }
+
+/** layout & transform */
+.flipper 
+{
+    position: relative;
+    -webkit-perspective: 700;
+    overflow: visible;
+    /* background-image: url('chaos.jpg');*/
+}
+
+.flip-front 
+{
+    /*background-image: url('chaos.jpg');
+    background-color:red;*/
+    -webkit-transform-style: preserve- 3 d;
+    -webkit-backface-visibility: hidden;
+    -webkit-transition: all ease-in 0.4s;
+    z-index: 900;
+}
+.flip-back 
+{
+    position: absolute; top: 0; left: 0;
+    z-index: 800;
+    /*background-image: url('chaos.jpg');*/
+    -webkit-transform: rotatey(-180deg);
+    -webkit-transform-style: preserve- 3 d;
+    -webkit-backface-visibility: hidden;
+    -webkit-transition: all ease-in-out 0.4s;
+    opacity: 0;
+}
+.flipper:hover .flip-front {
+    z-index: 900;
+    -webkit-transform: rotatey(180deg);
+    opacity: 0;
+}
+.flipper:hover .flip-back {
+    z-index: 1000;
+    -webkit-transform: rotatey(0deg);
+    opacity: 1;
+}
+/*.mychange
+{
+    background-color: red;
+    color:red;
+    
+}*/
