@@ -1,0 +1,39 @@
+/** style */
+body { margin: 50px; text-align: center; }
+.flipper { width: 300px; height: 100px; line-height: 100px; font-size: 30px; font-weight: bold; color: #444; text-align: center; margin: 0 auto; }
+.flip-front { background: #666; color: #FFF; width: 300px; height: 100px; }
+.flip-back { background: #CCC; color: #666; width: 300px; height: 100px; opacity: 0}
+
+/** layout & transform */
+.flipper {
+    position: relative;
+    -webkit-perspective: 700;
+    overflow: visible;
+}
+.flip-front {
+    -webkit-transform-style: preserve- 3 d;
+    -webkit-backface-visibility: hidden;
+    -webkit-transition: all ease-in-out 0.4s;
+    z-index: 900;
+}
+.flip-back {
+    position: absolute; top: 0; left: 0;
+    opacity:0;
+    z-index: 800;
+    
+    -webkit-transform: rotatey(-180deg);
+    -webkit-transform-style: preserve- 3 d;
+    -webkit-backface-visibility: hidden;
+    -webkit-transition: all ease-in-out 0.4s;
+    opacity: 0;
+}
+.flipper.flipped .flip-front {
+    z-index: 900;
+    -webkit-transform: rotatey(180deg);
+    opacity: 0;
+}
+.flipper.flipped .flip-back {
+    z-index: 1000;
+    -webkit-transform: rotatey(0deg);
+    opacity: 1;
+}

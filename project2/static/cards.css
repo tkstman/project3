@@ -4,7 +4,7 @@
 /*}*/
 
 /** style */
-body { margin: 100px; padding: 50px; text-align: center; }
+body { margin: 50px; padding: 50px; text-align: center; }
 
 .colored
 {
@@ -23,44 +23,78 @@ body { margin: 100px; padding: 50px; text-align: center; }
 {
     position: relative;
     -webkit-perspective: 700;
+    -moz-perspective:700;
+    -o-perspective:700;
+    -ms-perspective:700;
     overflow: visible;
-    /* background-image: url('chaos.jpg');*/
 }
 
-.flip-front 
-{
-    /*background-image: url('chaos.jpg');
-    background-color:red;*/
+.flip-front {
     -webkit-transform-style: preserve- 3 d;
+    -moz-transform-style: preserve- 3 d;
+    -o-transform-style: preserve- 3 d;
+    -ms-transform-style: preserve- 3 d;
+  
     -webkit-backface-visibility: hidden;
-    -webkit-transition: all ease-in 0.4s;
+    -moz-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+  
+    -webkit-transition: all ease-in-out 0.4s;
+    -moz-transition: all ease-in-out 0.4s;
+    -o-transition: all ease-in-out 0.4s;
+    -ms-transition: all ease-in-out 0.4s;
     z-index: 900;
 }
-.flip-back 
-{
-    position: absolute; 
+.flip-back {
+    position: absolute; top: 0; left: 0;
     z-index: 800;
-    /*background-image: url('chaos.jpg');*/
+    
     -webkit-transform: rotatey(-180deg);
     -webkit-transform-style: preserve- 3 d;
     -webkit-backface-visibility: hidden;
     -webkit-transition: all ease-in-out 0.4s;
+  
+    -ms-transform: rotatey(-180deg);
+    -ms-transform-style: preserve- 3 d;
+    -ms-backface-visibility: hidden;
+    -ms-transition: all ease-in-out 0.4s;
+  
+    -moz-transform: rotatey(-180deg);
+    -moz-transform-style: preserve- 3 d;
+    -moz-backface-visibility: hidden;
+    -moz-transition: all ease-in-out 0.4s;
+  
+    -o-transform: rotatey(-180deg);
+    -o-transform-style: preserve- 3 d;
+    -o-backface-visibility: hidden;
+    -o-transition: all ease-in-out 0.4s;
     opacity: 0;
 }
-.front {
+.flipper:hover .flip-front {
     z-index: 900;
     -webkit-transform: rotatey(180deg);
+    -o-transform: rotatey(180deg);
+    -moz-transform: rotatey(180deg);
+    -ms-transform: rotatey(180deg);
     opacity: 0;
 }
-.back {
+.flipper:hover .flip-back {
     z-index: 1000;
     -webkit-transform: rotatey(0deg);
+    -moz-transform: rotatey(0deg);
+    -o-transform: rotatey(0deg);
+    -ms-transform: rotatey(0deg);
     opacity: 1;
-    /*background-image: url('chaos.jpg');*/
 }
-/*.mychange
+
+.mytry
 {
-    background-color: red;
-    color:red;
-    
-}*/
+    z-index: 1000;
+    -webkit-transform: rotatey(0deg);
+    -moz-transform: rotatey(0deg);
+    -o-transform: rotatey(0deg);
+    -ms-transform: rotatey(0deg);
+    opacity: 0;
+}
+

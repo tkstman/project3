@@ -5,27 +5,102 @@ window.onload = function()
   var bod = document.getElementById('bodi');
   bod.style.color='blue';
   bod.style.backgroundColor='white' ;
-  //bod.style.display='grid';
   bod.style.overflow='hidden';
   bod.style.width='450px';
   
+  if(typeof(Storage)!=="undefined")
+  {
+      
+  }
+  else
+  {
+      alert('YOU WILL NOT BE ABLE TO SAVE YOUR GAME DATA!!');
+  }
+  
+  var xmlhttp;
+  if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp=new XMLHttpRequest();
+  }
+  else
+  {// code for IE6, IE5
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  
+  var countclicks = function()
+  {
+      xmlhttp.onreadystatechange=function()
+      {
+          if (xmlhttp.readyState==4 && xmlhttp.status==200)
+          {
+              document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+          }
+      }
+      xmlhttp.open("GET","ajax_info.txt",true);
+      xmlhttp.send();
+  }
+  
+  
   var cards;
   var finaldeck = [];
-    
+  var cardcount;
+  var turnedcards=[];
+  var savedTurnedcards;
+  var player = document.createElement('textarea');
+  var playerValue;
+  player.rows='1';
+  player.cols='15';
+  
+  var audio1 = document.createElement('div');
+  audio1.id = 'audio1';
+  document.body.appendChild(audio1)
+  
+  var play1 = function(e)
+  {    
+    if(e===1)
+    {
+        $('#audio1').append('<embed id="embed_player" src="static/kiss.mp3" autostart="true" hidden="true"></embed>');
+    }
+    else if(e===2)
+    {
+         $('#audio1').append('<embed id="embed_player" src="static/battle018.mp3" autostart="true" hidden="true"></embed>');
+    }
+    else if(e===3)
+    {
+         $('#audio1').append('<embed id="embed_player" src="static/win.mp3" autostart="true" hidden="true"></embed>');
+    }
+  }
+  
+  
+  var removeembed=function()
+  {
+      $('#embed_player').remove();
+  }
+  
     var testfun = function(event)
     {
         alert(event.target);
         alert('it entered the function');
     };
     
-    function myFunction(e)
-    { 
-        //alert(e.target);
-        var check = e.target;
-    alert(check);
-    alert('it called the fucntion in the javascript file');
-check.classList.add('mychange');
-}
+    var clicktest = function()
+    {
+        cardcount = document.getElementById('countdiv').innerHTML;
+        if(isNaN(parseInt(cardcount,10)))
+        {    
+            alert('it whent into this');
+            cardcount = parseInt(1, 10);
+        }
+        else
+        {
+            cardcount = parseInt(cardcount, 10)+1;
+            if(cardcount > 24)
+            {
+                location.reload();
+            }
+        }
+        document.getElementById('countdiv').innerHTML = cardcount;
+    }
         /**
         * Randomize array element order in-place.
         * Using Fisher-Yates shuffle algorithm.
@@ -63,9 +138,7 @@ check.classList.add('mychange');
                 inc++;
             }
         }
-        //alert(identifiers.length);
-        //alert(identifiers);
-        //alert(shuffleArray(identifiers));
+
     };
     build();
     
@@ -81,22 +154,70 @@ check.classList.add('mychange');
         }
         finaldeck = shuffleArray(temparr.concat(temparr));
         
-        alert(finaldeck);
+        //alert(finaldeck);
     };
     choose();
     
-    var testfunct = function(e)
+    var setup = function(b,f)
     {
-        //alert('tks is the man');
-        //alert(e);
-        var targ;
-	if (!e) e = window.event;
-	if (e.target) targ = e.target;
-	//alert(targ);
-        //alert(seal);
+        b.style.webkitTransform='rotatey(-180deg)';
+        b.style.msTransform='rotatey(-180deg)';
+        b.style.mozTransform='rotatey(-180deg)';
+        b.style.oTransform='rotatey(-180deg)';
+        b.style.webkitTransformStyle= 'preserve- 3 d';
+        b.style.mozTransformStyle= 'preserve- 3 d';
+        b.style.oTransformStyle= 'preserve- 3 d';
+        b.style.msTransformStyle= 'preserve- 3 d';
+  
+        b.style.webkitBackfaceVisibility= 'hidden';
+        b.style.mozBackfaceVisibility= 'hidden';
+        b.style.oBackfaceVisibility= 'hidden';
+        b.style.msBackfaceVisibility= 'hidden';
+        
+        b.style.webkitTransition= 'all ease-in-out 0.8s';
+        b.style.mozTransition= 'all ease-in-out 0.8s';
+        b.style.oTransition= 'all ease-in-out 0.8s';
+        b.style.msTransition= 'all ease-in-out 0.8s';
+        b.style.zIndex= '800';
+        
+        f.style.webkitTransformStyle= 'preserve- 3 d';
+        f.style.mozTransformStyle= 'preserve- 3 d';
+        f.style.oTransformStyle= 'preserve- 3 d';
+        f.style.msTransformStyle= 'preserve- 3 d';
+  
+        f.style.webkitBackfaceVisibility= 'hidden';
+        f.style.mozBackfaceVisibility= 'hidden';
+        f.style.oBackfaceVisibility= 'hidden';
+        f.style.msBackfaceVisibility= 'hidden';
+  
+        f.style.webkitTransition= 'all ease-in-out 0.8s';
+        f.style.mozTransition= 'all ease-in-out 0.8s';
+        f.style.oTransition= 'all ease-in-out 0.8s';
+        f.style.msTransition= 'all ease-in-out 0.8s';
+        f.style.zIndex= '900';
+
+    }
+    
+      
+    var turnfront = function(f,b)
+    {
+        //alert('it entered this section');
+      
+        f.style.webkitTransform= 'rotatey(180deg)';
+        f.style.oTransform= 'rotatey(180deg)';
+        f.style.mozTransform= 'rotatey(180deg)';
+        f.style.msTransform= 'rotatey(180deg)';
+      
+        b.style.webkitTransform= 'rotatey(0deg)';
+        b.style.oTransform= 'rotatey(0deg)';
+        b.style.mozTransform= 'rotatey(0deg)';
+        b.style.msTransform= 'rotatey(0deg)';
         
         
-    };
+        b.parentNode.classList.add('turned');
+
+    }
+
     
     // creates a card from scratch and displays the type required
     var makeCard = function(cardval)
@@ -169,17 +290,13 @@ check.classList.add('mychange');
         ele.style.height = '130px';
         ele.style.width = '100px';
         ele.style.backgroundColor='black';
-        //ele.style.float='left';
         ele.style.zIndex = '-1';
         
         // create cover for card(back)
         var cover = document.createElement('div');
         cover.style.height = '130px';
-        cover.style.width = '100px';
-       
+        cover.style.width = '100px';       
         cover.style.backgroundImage='url("static/chaos.jpg")';
-
-        //cover.style.backgroundColor='red';
         cover.style.float='left';
         cover.style.zIndex = '1';
         
@@ -187,7 +304,6 @@ check.classList.add('mychange');
         var outerele = document.createElement('div');
         outerele.style.height = '130px';
         outerele.style.width = '100px';
-        //outerele.style.backgroundColor='black';
         outerele.style.float='left';    
     
         //create middle section of card
@@ -260,14 +376,14 @@ check.classList.add('mychange');
         ele.appendChild(inele);
         ele.style.marginBottom='2px';
         ele.style.marginRight='2px';
-        //ele.addEventListener('click', testfunct(window.event), false);
-        //ele.style.float='left';
-        ele.style.opacity=0;
-        //ele.onclick='testfun(event)';
+        ele.style.position='absolute'; 
+               
         
         ele.className='flip-back';
         cover.className='flip-front';
-        
+      
+        setup(ele, cover);
+      
         outerele.className='flipper';
         
         outerele.appendChild(cover);
@@ -277,41 +393,26 @@ check.classList.add('mychange');
         outerele.style.float = 'left';
         outerele.style.marginRight='2px';
         outerele.style.marginBottom='2px';
-        //ele.name=cardval;
         
         ele.setAttribute('data-name',cardval);
-        //m = document.createAttribute('name');
-        //m.value =cardval;
-        //alert(m.value);
-       // alert(ele.getAttribute('name'));
-        //alert('this is what will happen');
-        //ele.classList.add('flipper');
+
         bod.appendChild(outerele);
-    };
-    //makeCard();
+    };    
     
     
-    /*var mytry = document.createElement('p');
-    mytry.innerHTML = 'hey';
-    //mytry.onclick ='testfun(event)';
-    bod.appendChild(mytry);
-    //mytry.innerHTML('<div onclick="testfun(event)"> wah happen</div>');
-    //var seal= 12;
-    cards = document.getElementsByClassName('flipper');
-    alert(cards.length);
-    alert(cards);
-    alert(cards[0]);
-    cards[0].style.backgroundColor='red';
-    cards[0].className='flip';
-    for(var h = 0; h<cards.length;h++)
+    if(localStorage.getItem('savedGame') )//|| finaldeck)
     {
-        //cards[h].addEventListener('click', testfunct(event.target), false);
-        alert('this must be annoying');
-        //alert(cards[h].getAttribute('name'));
+        alert('It has identified the localstorage of savedGame');
+        alert(localStorage.getItem('savedGame'));
+        var savedDeck = JSON.parse(localStorage.getItem('savedGame'));
+        savedTurnedcards = JSON.parse(localStorage.getItem('turnedcards'));
+        player.value = JSON.parse(localStorage.getItem('playername'));
+        alert(player.value);
+        alert((savedDeck.deck));
+        finaldeck = savedDeck.deck;
     }
-    */
-    
-    
+  
+  
     //place all cards for game on screen
     var displayGame= function()
     {
@@ -322,116 +423,153 @@ check.classList.add('mychange');
     };
     
     displayGame();
+  
+    var flipsavedcards = function()
+    {
+        if (savedTurnedcards)
+        {
+            var listofcards = document.querySelectorAll('.flipper');
+            for(var i = 0; i<savedTurnedcards.length;i++)
+            {
+                for(var u = 0; u<listofcards.length; u++)
+                {
+                    if(savedTurnedcards[i] === listofcards[u].childNodes[1].getAttribute('data-name'))
+                    {
+                        turnfront(listofcards[u].childNodes[0],listofcards[u].childNodes[1])
+                    }
+                }
+            }
+        }
+    };
+    flipsavedcards();
     
     var state = 0;
     var match = [];
     var nodules = [];
+
+    var turnback = function(e)
+    {
+        e.childNodes[0].style.webkitTransform ='rotatey(0deg)';
+        e.childNodes[1].style.webkitTransform ='rotatey(-180deg)';
+    }
     
-    $('.flip-front').on('click', function (e) {
+    
+    var clickedcard;
+    var matches=0;
+  
+    $('.flipper').on('click', function (e) {
+        removeembed();      
+          
+      if(this.classList.contains('turned'))
+        {} 
+      else{
+        play1(1);
+        turnfront(this.childNodes[0],this.childNodes[1]);
         
-        
-        alert(this.parentNode.childNodes[0].classList);
-        alert(this.parentNode.childNodes[1].classList);
-        this.parentNode.childNodes[1].classList.add('front');
-        this.parentNode.childNodes[0].classList.add('back');
-        alert(this.parentNode.childNodes[0].getAttribute('data-name'));
-        var code = this.parentNode.childNodes[0].getAttribute('data-name');
+        var code = this.childNodes[1].getAttribute('data-name');
         var nodule = this;
-        alert(nodule);
         
         if(state===0 || state===1)
         {
             nodules[state] = nodule;
             match[state] = code;
+          
             state++;
             if(match.length===2)
             {
+
                 if(match[0]==match[1])
                 {
                     alert('they matched');
-                    match=[];
+                  turnedcards=match.concat(turnedcards);  
+
+                  match=[];
+                    play1(2);
+                  matches++;
+
+                  if(matches===8)
+                  {
+                      play1(3);
+                  }
+
                 }
                 else
                 {
                     alert('they did not match');
-                    //nodules[0].parentNode.childNodes[1].classList.remove('front');
-                    //nodules[0].parentNode.childNodes[0].classList.remove('back');
                     
                     for(var h=0; h<nodules.length; h++)
                     {
-                        
-                        nodules[h].parentNode.childNodes[1].classList.remove('front');
-                        nodules[h].parentNode.childNodes[0].classList.remove('back');
+                        turnback(nodules[h]);                      
+                        nodules[h].classList.remove('turned');
                     }
                     nodules=[];
                     match=[];
                 }
+
+              clicktest();
             }
             
             if(state >1)
             {
-                alert(nodules);
                 state = 0;
             }
         }
-        
-        //this.parentNode.childNode[0].classList.add();
-        //this.parentNode.childNode[1].classList.add();
-        //this.classList.add('flip-front');
-        //alert(this.nodeName);
-        //alert(this.parentNode.classList);
-        //alert(this.nodeList);
-    //$(this.parentNode).toggleClass("flip-back");
-    //this.parentNode.classList.add('flip-back');
-    //this.parentNode.classList.add('flip-front');
+      }
+      
+      
     });
     
-    var player = document.createElement('textarea');
-    player.rows='1';
-    player.cols='15';
     
-    var mytest = function()
+    
+    var savegame= function()
     {
-        alert('This is now active');
+      var user = player.value;
+      if(user.length>0)
+      {
+          alert(turnedcards);
+          //alert(player.innerHTML);
+          alert(player.value);
+          localStorage.setItem('playername', JSON.stringify(user));
+          localStorage.setItem('savedGame', JSON.stringify(saveddeck));
+          
+          localStorage.setItem('turnedcards', JSON.stringify(turnedcards));
+        
+          localStorage.setItem('testdek',JSON.stringify(testdeck));
+          alert('GAME SAVED');
+      }
+      else
+      {
+          alert('                  GAME NOT SAVED \n      PLEASE ENTER A PLAYER NAME');
+      }
+      
+    };
+  
+    var countdiv = document.createElement('span');
+    countdiv.id='countdiv';
+       
+    var butn = document.createElement('button');
+    
+    butn.innerHTML = 'Save Game';
+    butn.addEventListener('DOMActivate',savegame,false);
+  
+    var saveddeck = 
+    { 
+      'deck': finaldeck         
     };
     
-    var butn = document.createElement('button');
-    butn.innerHTML = 'Save Game';
-    butn.addEventListener('DOMActivate',mytest,false);
+    var testdeck=
+    {
+        'deck': finaldeck,
+        'turneditems': turnedcards,
+      'myplayer': player.value
+    };
     
-    bod.appendChild(butn);
+    var buttondiv = document.createElement('div');
+    buttondiv.id = 'myDiv';
+    buttondiv.appendChild(butn);
+    buttondiv.appendChild(player);
+    buttondiv.appendChild(countdiv);
+    bod.appendChild(buttondiv);
     
 };
 
-
-
-
-/*<script>
-  window.onload
-  {
-    var ele = document.createElement('div');
-    ele.style.height = '30px';
-    ele.style.width = '40px';
-    ele.style.color = 'blue';
-    var body = document.getElementsByTagName('body');
-    body.appendChild(ele);
-  };
-</script>
-*/
-/*window.onload = function()
-{
-  var bod = document.getElementById('bodi');
-  bod.style.color='blue';
-}*/
-/*<script>
-  window.onload
-  {
-    var ele = document.createElement('div');
-    ele.style.height = '30px';
-    ele.style.width = '40px';
-    ele.style.color = 'blue';
-    var body = document.getElementsByTagName('body');
-    body.appendChild(ele);
-  };
-</script>
-*/
