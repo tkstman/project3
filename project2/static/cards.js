@@ -82,19 +82,10 @@ window.onload = function()
       $('#embed_player').remove();
   }
   
-    var testfun = function(event)
-    {
-        alert(event.target);
-        alert('it entered the function');
-    };
-    
+   
     var clicktest = function()
     {
-        //if(!(cardcount))
-        //{
-          //  alert(cardcount); 
           cardcount = document.getElementById('countdiv').innerHTML;
-        //}
        
         if(isNaN(parseInt(cardcount,10)))
         {    
@@ -163,8 +154,8 @@ window.onload = function()
             temparr[k] = firstshuf[k];
         }
         finaldeck = shuffleArray(temparr.concat(temparr));
-        
-        //alert(finaldeck);
+      
+     
     };
     choose();
     
@@ -412,8 +403,6 @@ window.onload = function()
     
     if(localStorage.getItem('savedGame') )//|| finaldeck)
     {
-        alert('It has identified the localstorage of savedGame');
-        alert(localStorage.getItem('savedGame'));
         var savedDeck = JSON.parse(localStorage.getItem('savedGame'));
         savedTurnedcards = JSON.parse(localStorage.getItem('turnedcards'));
         player.value = JSON.parse(localStorage.getItem('playername'));
@@ -421,13 +410,8 @@ window.onload = function()
         {
             document.getElementById('countdiv').innerHTML = JSON.parse(localStorage.getItem('tries'));
         }*/
-        alert(JSON.parse(localStorage.getItem('tries')));
         cardcount=JSON.parse(localStorage.getItem('tries'));
-        alert(document.getElementById('countdiv'));
         //alert(document.getElementById('countdiv').innerHTML);
-        alert(cardcount);
-        alert(player.value);
-        alert((savedDeck.deck));
         finaldeck = savedDeck.deck;
     }
   
@@ -500,8 +484,7 @@ window.onload = function()
 
                 if(match[0]==match[1])
                 {
-                    alert('they matched');
-                  turnedcards=match.concat(turnedcards);  
+                    turnedcards=match.concat(turnedcards);  
 
                   match=[];
                     play1(2);
@@ -514,9 +497,7 @@ window.onload = function()
 
                 }
                 else
-                {
-                    alert('they did not match');
-                    
+                {                                     
                     for(var h=0; h<nodules.length; h++)
                     {
                         turnback(nodules[h]);                      
@@ -546,9 +527,8 @@ window.onload = function()
       var user = player.value;
       if(user.length>0)
       {
-          alert(turnedcards);
           //alert(player.innerHTML);
-          alert(player.value);
+      
           localStorage.setItem('playername', JSON.stringify(user));
           localStorage.setItem('savedGame', JSON.stringify(saveddeck));
           

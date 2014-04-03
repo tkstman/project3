@@ -7,18 +7,12 @@ app = Flask(__name__)
 # Note: We don't need to call run() since our application is embedded within
 # the App Engine WSGI application server.
 
-
-@app.route('/')
-def hello():
-    """Return a friendly HTTP greeting."""
-    return 'Hello World!'
-
 @app.route('/cardsp')
 def cardsp(name=None):
     """Return a friendly HTTP greeting."""
     return render_template('cardsp.html',name=name)
   
-@app.route('/cards')
+@app.route('/')
 def cards(name=None):
     """Return a friendly HTTP greeting."""
     return render_template('cards.html',name=name)
