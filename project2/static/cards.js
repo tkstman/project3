@@ -453,9 +453,12 @@ window.onload = function()
 
     var turnback = function(e)
     {
+      window.setTimeout(function(b){
         e.childNodes[0].style.webkitTransform ='rotatey(0deg)';
         e.childNodes[1].style.webkitTransform ='rotatey(-180deg)';
+                                  },1200)
     }
+    
     
     
     var clickedcard;
@@ -500,6 +503,7 @@ window.onload = function()
                 {                                     
                     for(var h=0; h<nodules.length; h++)
                     {
+                      
                         turnback(nodules[h]);                      
                         nodules[h].classList.remove('turned');
                     }
