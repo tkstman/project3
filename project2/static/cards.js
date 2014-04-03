@@ -47,6 +47,8 @@ window.onload = function()
   var turnedcards=[];
   var savedTurnedcards;
   var countdiv = document.createElement('span');
+  var clickedcard;
+  var matches=0;
   countdiv.id='countdiv';
        
   var butn = document.createElement('button');
@@ -411,6 +413,7 @@ window.onload = function()
             document.getElementById('countdiv').innerHTML = JSON.parse(localStorage.getItem('tries'));
         }*/
         cardcount=JSON.parse(localStorage.getItem('tries'));
+        matches=JSON.parse(localStorage.getItem('matches'));
         //alert(document.getElementById('countdiv').innerHTML);
         finaldeck = savedDeck.deck;
     }
@@ -457,12 +460,9 @@ window.onload = function()
         e.childNodes[0].style.webkitTransform ='rotatey(0deg)';
         e.childNodes[1].style.webkitTransform ='rotatey(-180deg)';
                                   },1200)
-    }
+    }   
     
     
-    
-    var clickedcard;
-    var matches=0;
   
     $('.flipper').on('click', function (e) {
         removeembed();      
@@ -538,6 +538,7 @@ window.onload = function()
           
           localStorage.setItem('turnedcards', JSON.stringify(turnedcards));
           localStorage.setItem('tries', JSON.stringify(cardcount));
+          localStorage.setItem('matches',JSON.stringify(matches));
         
           localStorage.setItem('testdek',JSON.stringify(testdeck));
           alert('GAME SAVED');
