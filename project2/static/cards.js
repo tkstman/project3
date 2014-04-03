@@ -27,7 +27,7 @@ window.onload = function()
     xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
   }
   
-  var countclicks = function()
+  /*var countclicks = function()
   {
       xmlhttp.onreadystatechange=function()
       {
@@ -38,14 +38,19 @@ window.onload = function()
       }
       xmlhttp.open("GET","ajax_info.txt",true);
       xmlhttp.send();
-  }
+  }*/
   
   
   var cards;
   var finaldeck = [];
-  var cardcount;
+  var cardcount=0;
   var turnedcards=[];
   var savedTurnedcards;
+  var countdiv = document.createElement('span');
+  countdiv.id='countdiv';
+       
+  var butn = document.createElement('button');
+
   var player = document.createElement('textarea');
   var playerValue;
   player.rows='1';
@@ -85,7 +90,12 @@ window.onload = function()
     
     var clicktest = function()
     {
-        cardcount = document.getElementById('countdiv').innerHTML;
+        //if(!(cardcount))
+        //{
+          //  alert(cardcount); 
+          cardcount = document.getElementById('countdiv').innerHTML;
+        //}
+       
         if(isNaN(parseInt(cardcount,10)))
         {    
             alert('it whent into this');
@@ -407,6 +417,15 @@ window.onload = function()
         var savedDeck = JSON.parse(localStorage.getItem('savedGame'));
         savedTurnedcards = JSON.parse(localStorage.getItem('turnedcards'));
         player.value = JSON.parse(localStorage.getItem('playername'));
+        /*if(JSON.parse(localStorage.getItem('tries')))
+        {
+            document.getElementById('countdiv').innerHTML = JSON.parse(localStorage.getItem('tries'));
+        }*/
+        alert(JSON.parse(localStorage.getItem('tries')));
+        cardcount=JSON.parse(localStorage.getItem('tries'));
+        alert(document.getElementById('countdiv'));
+        //alert(document.getElementById('countdiv').innerHTML);
+        alert(cardcount);
         alert(player.value);
         alert((savedDeck.deck));
         finaldeck = savedDeck.deck;
@@ -426,6 +445,7 @@ window.onload = function()
   
     var flipsavedcards = function()
     {
+      
         if (savedTurnedcards)
         {
             var listofcards = document.querySelectorAll('.flipper');
@@ -533,6 +553,7 @@ window.onload = function()
           localStorage.setItem('savedGame', JSON.stringify(saveddeck));
           
           localStorage.setItem('turnedcards', JSON.stringify(turnedcards));
+          localStorage.setItem('tries', JSON.stringify(cardcount));
         
           localStorage.setItem('testdek',JSON.stringify(testdeck));
           alert('GAME SAVED');
@@ -544,11 +565,7 @@ window.onload = function()
       
     };
   
-    var countdiv = document.createElement('span');
-    countdiv.id='countdiv';
-       
-    var butn = document.createElement('button');
-    
+        
     butn.innerHTML = 'Save Game';
     butn.addEventListener('DOMActivate',savegame,false);
   
@@ -564,11 +581,17 @@ window.onload = function()
       'myplayer': player.value
     };
     
+    var assigntries=function()
+    {
+        document.getElementById('countdiv').innerHTML = cardcount;
+    };
+  
     var buttondiv = document.createElement('div');
     buttondiv.id = 'myDiv';
     buttondiv.appendChild(butn);
     buttondiv.appendChild(player);
     buttondiv.appendChild(countdiv);
+    setTimeout(assigntries, 2000);
     bod.appendChild(buttondiv);
     
 };
