@@ -571,11 +571,24 @@ window.onload = function()
         document.getElementById('countdiv').innerHTML = cardcount;
     };
   
+    var newGame=function()
+    {
+        localStorage.clear();
+        location.reload();
+    };
+  
+    var newgamebutn = document.createElement('button');
+    newgamebutn.id ='newgame';
+    newgamebutn.innerHTML='New Game';
+    newgamebutn.addEventListener('DOMActivate',newGame,false);
+    
+  
     var buttondiv = document.createElement('div');
     buttondiv.id = 'myDiv';
     buttondiv.appendChild(butn);
     buttondiv.appendChild(player);
     buttondiv.appendChild(countdiv);
+    buttondiv.appendChild(newgamebutn);
     setTimeout(assigntries, 2000);
     bod.appendChild(buttondiv);
     
