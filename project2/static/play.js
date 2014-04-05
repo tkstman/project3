@@ -9,14 +9,13 @@ window.onload = function()
   bod.style.width='450px';
   bod.style.marginLeft='30%';
   
-  var player1name;  
-  var player2name;
+  var player1name="";  
+  var player2name="";
   
-  var player1tries;
-  var player2tries;
+  var player1matches=0;
+  var player2matches=0;
   var ply1cnt;
   var ply2cnt;
- //var docum = document.getElementById''
   
   var ply1span = document.createElement('span');
   var ply1span2 = document.createElement('span');
@@ -30,7 +29,7 @@ window.onload = function()
   var ply1h2 = document.createElement('h2');
   
   ply1h2.id = 'p1cntval';
-  ply1h2.innerHTML ='where';
+  //ply1h2.innerHTML ='where';
   ply1h1.id = 'p1count';
   //ply1h1.innerHTML ='Lets test this';
   ply1span.appendChild(ply1h1);
@@ -52,7 +51,7 @@ window.onload = function()
   
   
   ply2h2.id = 'p2cntval';
-  ply2h2.innerHTML ='there'
+  //ply2h2.innerHTML ='there'
   
   ply2h1.id = 'p2count';
   //ply2h1.innerHTML ='Lets test this too'
@@ -71,28 +70,6 @@ window.onload = function()
       alert('YOU WILL NOT BE ABLE TO SAVE YOUR GAME DATA!!');
   }
   
-  var xmlhttp;
-  if (window.XMLHttpRequest)
-  {// code for IE7+, Firefox, Chrome, Opera, Safari
-    xmlhttp=new XMLHttpRequest();
-  }
-  else
-  {// code for IE6, IE5
-    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-  
-  /*var countclicks = function()
-  {
-      xmlhttp.onreadystatechange=function()
-      {
-          if (xmlhttp.readyState==4 && xmlhttp.status==200)
-          {
-              document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
-          }
-      }
-      xmlhttp.open("GET","ajax_info.txt",true);
-      xmlhttp.send();
-  }*/
   
   
   var cards;
@@ -104,18 +81,10 @@ window.onload = function()
   var clickedcard;
   var matches=0;
   countdiv.id='countdiv';
+  countdiv.style.marginLeft = "25%";
        
   var butn = document.createElement('button');
 
-  var player = document.createElement('textarea');
-  var playerValue;
-  player.style.marginTop='15px';
-  player.style.marginLeft='5px';
-  player.style.marginRight='5px';
-  player.style.marginBottom='-7px';
-  player.rows='1';
-  player.cols='15';
-  
   var audio1 = document.createElement('div');
   audio1.id = 'audio1';
   document.body.appendChild(audio1)
@@ -155,22 +124,12 @@ window.onload = function()
         else
         {
             cardcount = parseInt(cardcount, 10)+1;
-            if(cardcount > 24)
-            {
-                location.reload();
-            }
+            
         }
         
         ply1cnt = document.getElementById('p1count');
         ply2cnt = document.getElementById('p2count');
-        if(cardcount%2===1)
-        {
-            player1tries++;            
-        }
-        else
-        {
-            player2tries++;
-        }
+        
         document.getElementById('countdiv').innerHTML = cardcount;
     }
         /**
@@ -477,14 +436,14 @@ window.onload = function()
     {
         var savedDeck = JSON.parse(localStorage.getItem('savedGame'));
         savedTurnedcards = JSON.parse(localStorage.getItem('turnedcards'));
-        player.value = JSON.parse(localStorage.getItem('playername'));
-        /*if(JSON.parse(localStorage.getItem('tries')))
-        {
-            document.getElementById('countdiv').innerHTML = JSON.parse(localStorage.getItem('tries'));
-        }*/
+
         cardcount=JSON.parse(localStorage.getItem('tries'));
         matches=JSON.parse(localStorage.getItem('matches'));
-        //alert(document.getElementById('countdiv').innerHTML);
+      
+        player1matches=JSON.parse(localStorage.getItem('player1matches'));
+        player2matches=JSON.parse(localStorage.getItem('player2matches'));
+        player1name=JSON.parse(localStorage.getItem('player1name'));
+        player2name=JSON.parse(localStorage.getItem('player2name'));
         finaldeck = savedDeck.deck;
     }
   
@@ -501,10 +460,25 @@ window.onload = function()
     displayGame();
   
   //Get the name of the players
-   player1name = window.prompt("Player 1 Enter Your Name!:");  
-   player2name = window.prompt("Player 2 Enter Your Name!:");
+  var getPlayerNames=function()
+  {
+     player1name = window.prompt("Player 1 Enter Your Name!:");  
+     player2name = window.prompt("Player 2 Enter Your Name!:");
+      
+      if(player1name.length <1 ||player2name.length <1)
+      {
+          getPlayerNames();
+      }
+  }
+  
+      if(player1name.length <1 ||player2name.length <1)
+      {
+          getPlayerNames();
+      }
+  
   ply1h1.innerHTML = player1name;
-  ply2h1.innerHTML = player1name;
+  ply2h1.innerHTML = player2name;
+  
   //turns the saved card matches over
     var flipsavedcards = function()
     {
@@ -518,11 +492,13 @@ window.onload = function()
                 {
                     if(savedTurnedcards[i] === listofcards[u].childNodes[1].getAttribute('data-name'))
                     {
-                        turnfront(listofcards[u].childNodes[0],listofcards[u].childNodes[1])
+                        turnfront(listofcards[u].childNodes[0],listofcards[u].childNodes[1]);
                     }
                 }
             }
         }
+      ply1h2.innerHTML = player1matches;
+      ply2h2.innerHTML = player2matches;
     };
     flipsavedcards();
     
@@ -536,7 +512,37 @@ window.onload = function()
         e.childNodes[0].style.webkitTransform ='rotatey(0deg)';
         e.childNodes[1].style.webkitTransform ='rotatey(-180deg)';
                                   },1200)
-    }   
+    };   
+    
+    var playersmatchcount = function()
+    {
+      if(cardcount%2===1)
+        {      
+            player1matches++;   
+            ply1h2.innerHTML = player1matches;
+        }
+        else
+        {
+            player2matches++
+            ply2h2.innerHTML = player2matches;
+        }
+    };
+  
+    var showWinner = function()
+    {
+        if(player1matches>player2matches)
+        {
+              alert(player1name +" YOU WON!");
+        }
+        else if(player1matches<player2matches)
+        {
+              alert(player2name +" YOU WON!");
+        }
+        else
+        {
+              alert("IT WAS A DRAW!");
+        }
+    }
     
     
   
@@ -568,10 +574,13 @@ window.onload = function()
                   match=[];
                     play1(2);
                   matches++;
+                    
+                  playersmatchcount();
 
                   if(matches===8)
                   {
                       play1(3);
+                      showWinner();
                   }
 
                 }
@@ -604,12 +613,11 @@ window.onload = function()
     
     var savegame= function()
     {
-      var user = player.value;
-      if(user.length>0)
-      {
-          //alert(player.innerHTML);
       
-          localStorage.setItem('playername', JSON.stringify(user));
+          localStorage.setItem('player1name', JSON.stringify(player1name));
+          localStorage.setItem('player2name', JSON.stringify(player2name));
+          localStorage.setItem('player1matches', JSON.stringify(player1matches));
+          localStorage.setItem('player2matches', JSON.stringify(player2matches));
           localStorage.setItem('savedGame', JSON.stringify(saveddeck));
           
           localStorage.setItem('turnedcards', JSON.stringify(turnedcards));
@@ -618,11 +626,6 @@ window.onload = function()
         
           localStorage.setItem('testdek',JSON.stringify(testdeck));
           alert('GAME SAVED');
-      }
-      else
-      {
-          alert('                  GAME NOT SAVED \n      PLEASE ENTER A PLAYER NAME');
-      }
       
     };
   
@@ -638,8 +641,7 @@ window.onload = function()
     var testdeck=
     {
         'deck': finaldeck,
-        'turneditems': turnedcards,
-      'myplayer': player.value
+        'turneditems': turnedcards
     };
     
     var assigntries=function()
@@ -655,6 +657,7 @@ window.onload = function()
   
     var newgamebutn = document.createElement('button');
     newgamebutn.id ='newgame';
+    newgamebutn.style.marginLeft = "25%";
     newgamebutn.innerHTML='New Game';
     newgamebutn.addEventListener('DOMActivate',newGame,false);
     
@@ -662,7 +665,6 @@ window.onload = function()
     var buttondiv = document.createElement('div');
     buttondiv.id = 'myDiv';
     buttondiv.appendChild(butn);
-    buttondiv.appendChild(player);
     buttondiv.appendChild(countdiv);
     buttondiv.appendChild(newgamebutn);
     setTimeout(assigntries, 2000);
