@@ -7,6 +7,60 @@ window.onload = function()
   bod.style.backgroundColor='white' ;
   bod.style.overflow='hidden';
   bod.style.width='450px';
+  bod.style.marginLeft='30%';
+  
+  var player1name;  
+  var player2name;
+  
+  var player1tries;
+  var player2tries;
+  var ply1cnt;
+  var ply2cnt;
+ //var docum = document.getElementById''
+  
+  var ply1span = document.createElement('span');
+  var ply1span2 = document.createElement('span');
+  ply1span.style.position='absolute';
+  ply1span.style.marginLeft ='8%';
+  ply1span.style.marginTop ='-43%';
+  ply1span2.style.position='absolute';
+  ply1span2.style.marginLeft ='19%';
+  ply1span2.style.marginTop ='-43%';
+  var ply1h1 = document.createElement('h2');
+  var ply1h2 = document.createElement('h2');
+  
+  ply1h2.id = 'p1cntval';
+  ply1h2.innerHTML ='where';
+  ply1h1.id = 'p1count';
+  //ply1h1.innerHTML ='Lets test this';
+  ply1span.appendChild(ply1h1);
+  
+  ply1span2.appendChild(ply1h2);
+  document.body.appendChild(ply1span);
+  document.body.appendChild(ply1span2);
+  
+  var ply2span = document.createElement('span');
+  var ply2span2 = document.createElement('span');
+  var ply2h1 = document.createElement('h2');
+  var ply2h2 = document.createElement('h2');
+  ply2span.style.position='absolute';
+  ply2span.style.marginLeft = '60%';
+  ply2span.style.marginTop ='-43%';
+  ply2span2.style.position='absolute';
+  ply2span2.style.marginLeft = '75%';
+  ply2span2.style.marginTop ='-43%';
+  
+  
+  ply2h2.id = 'p2cntval';
+  ply2h2.innerHTML ='there'
+  
+  ply2h1.id = 'p2count';
+  //ply2h1.innerHTML ='Lets test this too'
+  ply2span.appendChild(ply2h1);
+  ply2span2.appendChild(ply2h2);
+  
+  document.body.appendChild(ply2span);
+  document.body.appendChild(ply2span2);
   
   if(typeof(Storage)!=="undefined")
   {
@@ -55,6 +109,10 @@ window.onload = function()
 
   var player = document.createElement('textarea');
   var playerValue;
+  player.style.marginTop='15px';
+  player.style.marginLeft='5px';
+  player.style.marginRight='5px';
+  player.style.marginBottom='-7px';
   player.rows='1';
   player.cols='15';
   
@@ -101,6 +159,17 @@ window.onload = function()
             {
                 location.reload();
             }
+        }
+        
+        ply1cnt = document.getElementById('p1count');
+        ply2cnt = document.getElementById('p2count');
+        if(cardcount%2===1)
+        {
+            player1tries++;            
+        }
+        else
+        {
+            player2tries++;
         }
         document.getElementById('countdiv').innerHTML = cardcount;
     }
@@ -431,6 +500,12 @@ window.onload = function()
     
     displayGame();
   
+  //Get the name of the players
+   player1name = window.prompt("Player 1 Enter Your Name!:");  
+   player2name = window.prompt("Player 2 Enter Your Name!:");
+  ply1h1.innerHTML = player1name;
+  ply2h1.innerHTML = player1name;
+  //turns the saved card matches over
     var flipsavedcards = function()
     {
       

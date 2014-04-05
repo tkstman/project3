@@ -12,10 +12,18 @@ def cardsp(name=None):
     """Return a friendly HTTP greeting."""
     return render_template('cardsp.html',name=name)
   
-@app.route('/')
+@app.route('/cards')
 def cards(name=None):
-    """Return a friendly HTTP greeting."""
     return render_template('cards.html',name=name)
+  
+@app.route('/play')
+def play(name=None):
+    return render_template('play.html',name=name)
+  
+@app.route('/')
+def start(name=None):
+    """Return a friendly HTTP greeting."""
+    return render_template('start.html',name=name)
   
 @app.route('/cardtry')
 def cardtry(name=None):
