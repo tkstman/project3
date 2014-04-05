@@ -76,7 +76,7 @@ window.onload = function()
   var finaldeck = [];
   var cardcount=0;
   var turnedcards=[];
-  var savedTurnedcards;
+  var savedTurnedcardsb;
   var countdiv = document.createElement('span');
   var clickedcard;
   var matches=0;
@@ -432,18 +432,18 @@ window.onload = function()
     };    
     
     
-    if(localStorage.getItem('savedGame') )//|| finaldeck)
+    if(localStorage.getItem('savedGameb') )//|| finaldeck)
     {
-        var savedDeck = JSON.parse(localStorage.getItem('savedGame'));
-        savedTurnedcards = JSON.parse(localStorage.getItem('turnedcards'));
+        var savedDeck = JSON.parse(localStorage.getItem('savedGameb'));
+        savedTurnedcardsb = JSON.parse(localStorage.getItem('turnedcardsb'));
 
-        cardcount=JSON.parse(localStorage.getItem('tries'));
-        matches=JSON.parse(localStorage.getItem('matches'));
+        cardcount=JSON.parse(localStorage.getItem('triesb'));
+        matches=JSON.parse(localStorage.getItem('matchesb'));
       
-        player1matches=JSON.parse(localStorage.getItem('player1matches'));
-        player2matches=JSON.parse(localStorage.getItem('player2matches'));
-        player1name=JSON.parse(localStorage.getItem('player1name'));
-        player2name=JSON.parse(localStorage.getItem('player2name'));
+        player1matches=JSON.parse(localStorage.getItem('player1matchesb'));
+        player2matches=JSON.parse(localStorage.getItem('player2matchesb'));
+        player1name=JSON.parse(localStorage.getItem('player1nameb'));
+        player2name=JSON.parse(localStorage.getItem('player2nameb'));
         finaldeck = savedDeck.deck;
     }
   
@@ -483,14 +483,14 @@ window.onload = function()
     var flipsavedcards = function()
     {
       
-        if (savedTurnedcards)
+        if (savedTurnedcardsb)
         {
             var listofcards = document.querySelectorAll('.flipper');
-            for(var i = 0; i<savedTurnedcards.length;i++)
+            for(var i = 0; i<savedTurnedcardsb.length;i++)
             {
                 for(var u = 0; u<listofcards.length; u++)
                 {
-                    if(savedTurnedcards[i] === listofcards[u].childNodes[1].getAttribute('data-name'))
+                    if(savedTurnedcardsb[i] === listofcards[u].childNodes[1].getAttribute('data-name'))
                     {
                         turnfront(listofcards[u].childNodes[0],listofcards[u].childNodes[1]);
                     }
@@ -614,17 +614,17 @@ window.onload = function()
     var savegame= function()
     {
       
-          localStorage.setItem('player1name', JSON.stringify(player1name));
-          localStorage.setItem('player2name', JSON.stringify(player2name));
-          localStorage.setItem('player1matches', JSON.stringify(player1matches));
-          localStorage.setItem('player2matches', JSON.stringify(player2matches));
-          localStorage.setItem('savedGame', JSON.stringify(saveddeck));
+          localStorage.setItem('player1nameb', JSON.stringify(player1name));
+          localStorage.setItem('player2nameb', JSON.stringify(player2name));
+          localStorage.setItem('player1matchesb', JSON.stringify(player1matches));
+          localStorage.setItem('player2matchesb', JSON.stringify(player2matches));
+          localStorage.setItem('savedGameb', JSON.stringify(saveddeck));
           
-          localStorage.setItem('turnedcards', JSON.stringify(turnedcards));
-          localStorage.setItem('tries', JSON.stringify(cardcount));
-          localStorage.setItem('matches',JSON.stringify(matches));
+          localStorage.setItem('turnedcardsb', JSON.stringify(turnedcards));
+          localStorage.setItem('triesb', JSON.stringify(cardcount));
+          localStorage.setItem('matchesb',JSON.stringify(matches));
         
-          localStorage.setItem('testdek',JSON.stringify(testdeck));
+          
           alert('GAME SAVED');
       
     };
@@ -638,12 +638,7 @@ window.onload = function()
       'deck': finaldeck         
     };
     
-    var testdeck=
-    {
-        'deck': finaldeck,
-        'turneditems': turnedcards
-    };
-    
+        
     var assigntries=function()
     {
         document.getElementById('countdiv').innerHTML = cardcount;
