@@ -1,7 +1,9 @@
 window.onload = function()
 {
+  document.body.style.marginTop = '20px';
+  document.body.style.marginLeft = '100px';
+  document.body.style.marginRight = '100px';
   
-  document.body.style.margin = '100px';
   var bod = document.getElementById('bodi');
   bod.style.color='blue';
   bod.style.backgroundColor='white' ;
@@ -16,6 +18,19 @@ window.onload = function()
   var player2matches=0;
   var ply1cnt;
   var ply2cnt;
+  
+  var showwhosturn1 = document.createElement('span');
+  var showwhosturn2 = document.createElement('span'); 
+  showwhosturn1.innerHTML = 'Teran king';
+  showwhosturn2.innerHTML ='TKSIS';
+  
+  showwhosturn1.style.position='absolute';
+  showwhosturn1.style.marginLeft ='8%';
+  showwhosturn1.style.marginTop ='-39%';
+  
+  showwhosturn2.style.position='absolute';
+  showwhosturn2.style.marginLeft = '60%';
+  showwhosturn2.style.marginTop ='-39%';
   
   var ply1span = document.createElement('span');
   var ply1span2 = document.createElement('span');
@@ -37,6 +52,8 @@ window.onload = function()
   ply1span2.appendChild(ply1h2);
   document.body.appendChild(ply1span);
   document.body.appendChild(ply1span2);
+  document.body.appendChild(showwhosturn1);
+  document.body.appendChild(showwhosturn2);
   
   var ply2span = document.createElement('span');
   var ply2span2 = document.createElement('span');
@@ -432,6 +449,20 @@ window.onload = function()
         bod.appendChild(outerele);
     };    
     
+    var yourturn = function()
+    {
+        if(whosturn ===1)
+        {
+          showwhosturn1.innerHTML = 'YOUR TURN';
+          showwhosturn2.innerHTML = '';
+        }
+        else
+        {
+          showwhosturn2.innerHTML = 'YOUR TURN';
+          showwhosturn1.innerHTML = '';
+        }
+    }
+    
     
     if(localStorage.getItem('savedGameb') )//|| finaldeck)
     {
@@ -439,6 +470,8 @@ window.onload = function()
         savedTurnedcardsb = JSON.parse(localStorage.getItem('turnedcardsb'));
 
         whosturn = JSON.parse(localStorage.getItem('whosturn'));
+       // yourturn();s
+        
         cardcount=JSON.parse(localStorage.getItem('triesb'));
         matches=JSON.parse(localStorage.getItem('matchesb'));
       
@@ -460,6 +493,7 @@ window.onload = function()
     };
     
     displayGame();
+    yourturn();
   
   //Get the name of the players
   var getPlayerNames=function()
@@ -578,6 +612,7 @@ window.onload = function()
                     matches++;
                     
                     playersmatchcount();
+                   
 
                     if(matches===8)
                     {
@@ -592,10 +627,12 @@ window.onload = function()
                     if(whosturn === 1)
                     {
                         whosturn=2;
+                        yourturn();
                     }
                     else
                     {
                         whosturn=1;
+                        yourturn();
                     }
                   
                     for(var h=0; h<nodules.length; h++)

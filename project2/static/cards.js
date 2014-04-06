@@ -1,7 +1,10 @@
 window.onload = function()
 {
   
-  document.body.style.margin = '100px';
+  document.body.style.marginTop = '20px';
+  document.body.style.marginLeft = '100px';
+  document.body.style.marginRight = '100px';
+
   var bod = document.getElementById('bodi');
   bod.style.color='blue';
   bod.style.backgroundColor='white' ;
