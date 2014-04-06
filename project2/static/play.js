@@ -75,6 +75,7 @@ window.onload = function()
   var cards;
   var finaldeck = [];
   var cardcount=0;
+  var whosturn = 1;
   var turnedcards=[];
   var savedTurnedcardsb;
   var countdiv = document.createElement('span');
@@ -437,6 +438,7 @@ window.onload = function()
         var savedDeck = JSON.parse(localStorage.getItem('savedGameb'));
         savedTurnedcardsb = JSON.parse(localStorage.getItem('turnedcardsb'));
 
+        whosturn = JSON.parse(localStorage.getItem('whosturn'));
         cardcount=JSON.parse(localStorage.getItem('triesb'));
         matches=JSON.parse(localStorage.getItem('matchesb'));
       
@@ -516,7 +518,7 @@ window.onload = function()
     
     var playersmatchcount = function()
     {
-      if(cardcount%2===1)
+      if(whosturn%2===1)
         {      
             player1matches++;   
             ply1h2.innerHTML = player1matches;
@@ -571,21 +573,31 @@ window.onload = function()
                 {
                     turnedcards=match.concat(turnedcards);  
 
-                  match=[];
+                    match=[];
                     play1(2);
-                  matches++;
+                    matches++;
                     
-                  playersmatchcount();
+                    playersmatchcount();
 
-                  if(matches===8)
-                  {
-                      play1(3);
-                      showWinner();
-                  }
+                    if(matches===8)
+                    {
+                        play1(3);
+                        showWinner();
+                    }
 
                 }
                 else
-                {                                     
+                {                
+                    
+                    if(whosturn === 1)
+                    {
+                        whosturn=2;
+                    }
+                    else
+                    {
+                        whosturn=1;
+                    }
+                  
                     for(var h=0; h<nodules.length; h++)
                     {
                       
@@ -623,7 +635,7 @@ window.onload = function()
           localStorage.setItem('turnedcardsb', JSON.stringify(turnedcards));
           localStorage.setItem('triesb', JSON.stringify(cardcount));
           localStorage.setItem('matchesb',JSON.stringify(matches));
-        
+          localStorage.setItem('whosturn',JSON.stringify(whosturn));
           
           alert('GAME SAVED');
       
